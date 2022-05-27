@@ -2,12 +2,19 @@ import * as React from 'react';
 import './Header.css'
 import logo from '../../assets/logo.svg';
 import { Button, Input, Layout, Typography, Dropdown, Menu } from 'antd';
-import { GlobalOutlined } from '@ant-design/icons'
+import { GlobalOutlined } from '@ant-design/icons';
+// 路由中的钩子函数(获得对应api)
+import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom'
 
 interface IAppProps {
 }
 
 const Header: React.FunctionComponent<IAppProps> = (props) => {
+  // 1.获得指定api
+  let history = useHistory();
+  let location = useLocation();
+  let params = useParams();
+  let match = useRouteMatch();
   return (
     <div>
       <div className='app-header'>
@@ -18,13 +25,13 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
             <Dropdown.Button
               overlay={
                 <Menu
-                 items={
-                   [
-                     {label:'中文',key:'1'},
-                     {label:'英文',key:'2'},
-                   ]
-                 }>
-                 
+                  items={
+                    [
+                      { label: '中文', key: '1' },
+                      { label: '英文', key: '2' },
+                    ]
+                  }>
+
                 </Menu>
               }
               icon={<GlobalOutlined />}
@@ -35,16 +42,18 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
 
             {/* 按钮组 */}
             <Button.Group className='button-group' style={{ marginTop: '4px' }}>
-              <Button>登录</Button>
-              <Button>注册</Button>
+              <Button onClick={() => { history.push('/sign') }}>登录</Button>
+              <Button onClick={() => { history.push('/resiger') }}>注册</Button>
             </Button.Group>
           </div>
         </div>
 
         {/* 2.二级header */}
         <Layout.Header className='main-header'>
-          <img src={logo} alt="" className='app-logo' />
-          <Typography.Title level={3} className='app-title'>React 旅游网</Typography.Title>
+          <span onClick={() => { history.push("/") }}>
+            <img src={logo} alt="" className='app-logo' />
+            <Typography.Title level={3} className='app-title'>React 旅游网</Typography.Title>
+          </span>
           <Input.Search placeholder='请输入旅游的目的地,主题，或关键字' className='app-search'></Input.Search>
         </Layout.Header>
         {/* 3.水平导航菜单 */}

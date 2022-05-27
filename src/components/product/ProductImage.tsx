@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Image, Typography } from 'antd';
-import './index.css'
+import './index.css';
+import {useHistory,useLocation,useParams,useRouteMatch,Link} from 'react-router-dom'
 
 interface IProductImageProps {
     id: number | string,
@@ -13,8 +14,10 @@ interface IProductImageProps {
 
 const ProductImage: React.FunctionComponent<IProductImageProps> = (props) => {
     let { id, title, size, price, imageSrc } = props;
-    return <div>
-        {
+    let history=useHistory()
+    return (
+        <Link to={`/detail/${id}`}>
+          {
             size == "large" ? (
                 <Image src={imageSrc} height={285} width={490} className="product-image"/>
             ) : (
@@ -30,7 +33,10 @@ const ProductImage: React.FunctionComponent<IProductImageProps> = (props) => {
                 $ {price} 起
             </Typography.Text>
         </div>
-    </div>
+        </Link>
+    )
+       
+    
 };
 
 export default ProductImage;

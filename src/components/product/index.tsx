@@ -15,7 +15,7 @@ const ProductCollection: React.FunctionComponent<IAppProps> = ({ title, sideImag
             <Divider orientation='left'>{title}</Divider>
             <Row>
                 <Col span={4}>
-                    <Image src={sideImage} className="side-image"/>
+                    <Image src={sideImage} className="side-image" />
                 </Col>
                 <Col span={20}>
                     <Row>
@@ -48,7 +48,6 @@ const ProductCollection: React.FunctionComponent<IAppProps> = ({ title, sideImag
                                         title={products[2].title}
                                         imageSrc={products[2].touristRoutePictures[0].url}
                                         price={products[2].price}
-
                                     />
                                 </Col>
                             </Row>
