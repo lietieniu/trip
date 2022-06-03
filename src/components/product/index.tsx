@@ -1,125 +1,79 @@
 import * as React from 'react';
-import './index.css'
-import { Row, Col, Divider, Image } from 'antd';
-import ProductImage from './ProductImage';
+import ProductCollection from './product';
+import { Typography, Spin } from 'antd';
 
-interface IAppProps {
-    title: JSX.Element,
-    sideImage: string,
-    products: any[]
+import { productList1, productList2, productList3 } from './mockups';
+import sideImage from '../../assets/images/sider_2019_12-09.png';
+import sideImage2 from '../../assets/images/sider_2019_02-04.png';
+import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
+// 引入axios
+import axios from 'axios';
+import { RootState } from '../../redux/store'
+
+import { connect } from 'react-redux';
+import { recomProductState } from '../../redux/recommendProducts/recomProductsReducer';
+import * as types from '../../redux/recommendProducts/action'
+
+const mapStateToProps = (state: any) => {
+    return {
+        recomProductReducer: state.recomProductReducer
+    }
+}
+interface IProductProps {
+    recomProductReducer: recomProductState,
+    // action操作对象
+    // recommendStart: Function,
+    // recommendSuccess: Function,
+    // recommendFail: Function
+    giveMeData:Function
 }
 
-const ProductCollection: React.FunctionComponent<IAppProps> = ({ title, sideImage, products }) => {
+const Products: React.FunctionComponent<IProductProps> = (props) => {
+    let { productList, loading, error } = props.recomProductReducer
+    let {giveMeData} = props;
+
+    React.useEffect(() => {
+        // action 异步操作对象
+        giveMeData()
+    }, [])
+    
+    //列表为空,数据当期，数据加载loading
+    if (loading) {
+        return <Spin
+            size='large'
+            style={{
+                display: 'block',
+                margin: '0 auto',
+                marginTop: '200',
+                width: '100%'
+            }}
+        />
+    }
+    // 请求错误的情况下
+    // if (error) {
+    //     return <Typography.Title type='danger' level={3}>网站出错:{error}</Typography.Title>
+    // }
+
     return (
-        <div className='content'>
-            <Divider orientation='left'>{title}</Divider>
-            <Row>
-                <Col span={4}>
-                    <Image src={sideImage} className="side-image" />
-                </Col>
-                <Col span={20}>
-                    <Row>
-                        <Col span={12}>
-                            <ProductImage
-                                id={products[0].id}
-                                size="large"
-                                title={products[0].title}
-                                imageSrc={products[0].touristRoutePictures[0].url}
-                                price={products[0].price}
-
-                            />
-                        </Col>
-                        <Col span={12}>
-                            <Row>
-                                <Col span={12}>
-                                    <ProductImage
-                                        id={products[1].id}
-                                        size="small"
-                                        title={products[1].title}
-                                        imageSrc={products[1].touristRoutePictures[0].url}
-                                        price={products[1].price}
-
-                                    />
-                                </Col>
-                                <Col span={12}>
-                                    <ProductImage
-                                        id={products[2].id}
-                                        size="small"
-                                        title={products[2].title}
-                                        imageSrc={products[2].touristRoutePictures[0].url}
-                                        price={products[2].price}
-                                    />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col span={12}>
-                                    <ProductImage
-                                        id={products[3].id}
-                                        size="small"
-                                        title={products[3].title}
-                                        imageSrc={products[3].touristRoutePictures[0].url}
-                                        price={products[3].price}
-
-                                    />
-                                </Col>
-                                <Col span={12}>
-                                    <ProductImage
-                                        id={products[4].id}
-                                        size="small"
-                                        title={products[4].title}
-                                        imageSrc={products[4].touristRoutePictures[0].url}
-                                        price={products[4].price}
-
-                                    />
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={6}>
-                            <ProductImage
-                                id={products[5].id}
-                                size="small"
-                                title={products[5].title}
-                                imageSrc={products[5].touristRoutePictures[0].url}
-                                price={products[5].price}
-
-                            />
-                        </Col>
-                        <Col span={6}>
-                            <ProductImage
-                                id={products[6].id}
-                                size="small"
-                                title={products[6].title}
-                                imageSrc={products[6].touristRoutePictures[0].url}
-                                price={products[6].price}
-
-                            />
-                        </Col>
-                        <Col span={6}>
-                            <ProductImage
-                                id={products[7].id}
-                                size="small"
-                                title={products[7].title}
-                                imageSrc={products[7].touristRoutePictures[0].url}
-                                price={products[7].price}
-
-                            />
-                        </Col>
-                        <Col span={6}>
-                            <ProductImage
-                                id={products[8].id}
-                                size="small"
-                                title={products[8].title}
-                                imageSrc={products[8].touristRoutePictures[0].url}
-                                price={products[8].price}
-                            />
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+        <div>
+            {/*2.2 产品区 */}
+            <ProductCollection
+                title={<Typography.Title level={3} type="success">爆款推荐</Typography.Title>}
+                sideImage={sideImage}
+                products={productList1}
+            />
+            <ProductCollection
+                title={<Typography.Title level={3} type="danger">新品上市</Typography.Title>}
+                sideImage={sideImage2}
+                products={productList2}
+            />
+            <ProductCollection
+                title={<Typography.Title level={3} type="secondary">国内游推荐</Typography.Title>}
+                sideImage={sideImage3}
+                products={productList3}
+            />
         </div>
     );
 };
 
-export default ProductCollection;
+export default connect(mapStateToProps, types)(Products);

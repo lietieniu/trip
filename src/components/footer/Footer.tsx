@@ -3,9 +3,11 @@ import * as React from 'react';
 import {Layout,Typography} from 'antd';
 
 interface IAppProps {
+  
 }
 
 const Footer: React.FunctionComponent<IAppProps> = (props) => {
+  
     return (
         <div>
             <Layout.Footer>

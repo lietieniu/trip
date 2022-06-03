@@ -4,46 +4,75 @@ import logo from '../../assets/logo.svg';
 import { Button, Input, Layout, Typography, Dropdown, Menu } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 // 路由中的钩子函数(获得对应api)
-import { useHistory, useLocation, useParams, useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+//Reducer函数中Language的接口规范
+import { languageState } from '../../redux/language/languageReducer';
+import { RootState } from '../../redux/store'
+//
+import { useTranslation, withTranslation } from 'react-i18next'
 
+import { connect } from 'react-redux';
+import * as types from '../../redux/language/languageAction'
+const mapStateToProps = (state: any) => {
+  return {
+    Language: state.Language
+  }
+}
 interface IAppProps {
+  // languageState继承reducer函数中的接口规范
+  Language: languageState,
+  changeLanguage: Function,
+  addLanguage: Function
 }
 
 const Header: React.FunctionComponent<IAppProps> = (props) => {
   // 1.获得指定api
   let history = useHistory();
-  let location = useLocation();
-  let params = useParams();
-  let match = useRouteMatch();
+  //2.获得store中的语言数据状态
+  let { Language, changeLanguage, addLanguage } = props;
+  let language = Language.language;
+  let languageList = Language.languageList
+  // 3.
+  const { t } = useTranslation();
   return (
     <div>
       <div className='app-header'>
         {/* 一级Header */}
         <div className="top">
           <div className='top-header'>
-            <Typography.Text style={{ color: 'darkred' }}>让旅游更幸福</Typography.Text>
+            <Typography.Text style={{ color: 'darkred' }}>{t('header.slogan')}</Typography.Text>
             <Dropdown.Button
               overlay={
                 <Menu
+                  onClick={(e) => {
+                    if (e.key === 'new') {
+                      // 添加新语言的action
+                      addLanguage({ label: '法语', key: "newone" })
+                    } else {
+                      changeLanguage(e.key)
+                    }
+                  }}
                   items={
-                    [
-                      { label: '中文', key: '1' },
-                      { label: '英文', key: '2' },
-                    ]
+                    languageList.concat([{ label: "添加新语言", key: "new" }])
                   }>
+
+                  {/*[
+                  {label:'中文',key:'zh},
+                  {label:'英文',key:'en},
+                ]*/}
 
                 </Menu>
               }
               icon={<GlobalOutlined />}
               style={{ marginLeft: 15 }}
             >
-              语言
+              {language === 'zh' ? "中文" : "英文"}
             </Dropdown.Button>
 
             {/* 按钮组 */}
             <Button.Group className='button-group' style={{ marginTop: '4px' }}>
-              <Button onClick={() => { history.push('/sign') }}>登录</Button>
-              <Button onClick={() => { history.push('/resiger') }}>注册</Button>
+              <Button onClick={() => { history.push('/sign') }}>{t('header.signin')}</Button>
+              <Button onClick={() => { history.push('/resiger') }}>{t('header.register')}</Button>
             </Button.Group>
           </div>
         </div>
@@ -54,7 +83,12 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
             <img src={logo} alt="" className='app-logo' />
             <Typography.Title level={3} className='app-title'>React 旅游网</Typography.Title>
           </span>
-          <Input.Search placeholder='请输入旅游的目的地,主题，或关键字' className='app-search'></Input.Search>
+          <Input.Search 
+          placeholder='请输入旅游的目的地,主题，或关键字' 
+          className='app-search'
+          onSearch={(keywords)=>{history.push('/search/'+keywords)}}
+          >
+           </Input.Search>
         </Layout.Header>
         {/* 3.水平导航菜单 */}
         <Menu mode={'horizontal'} className='menu1'>
@@ -79,4 +113,4 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
   );
 };
 
-export default Header;
+export default connect(mapStateToProps, types)(Header);

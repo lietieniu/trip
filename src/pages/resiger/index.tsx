@@ -4,11 +4,11 @@ interface IResigerProps {
 }
 
 const Resiger: React.FunctionComponent<IResigerProps> = (props) => {
-  return (
-      <div>
-          <h1>注册界面</h1>
-      </div>
-  );
+    return (
+        <div>
+            <h1>注册界面</h1>
+        </div>
+    );
 };
 
 export default Resiger;

@@ -1,0 +1,26 @@
+.page-content {
+    width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 75vh;
+  }
+  
+  .product-intro-container {
+      margin-top: 20px;
+      margin-bottom: 400px;
+      background-color: rgb(216, 210, 202);
+    }
+    
+    .product-detail-anchor {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      background-color: rgb(216, 210, 202);
+    }
+    
+    .product-detail-container {
+      background: rgb(216, 210, 202);
+      margin-top: 20px;
+      padding-top: 10px;
+      margin-bottom: 30px;
+      padding-bottom: 30px;
+    }

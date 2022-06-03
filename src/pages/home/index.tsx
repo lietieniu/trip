@@ -9,21 +9,60 @@ import SideMenu from '../../components/sideMenu';
 // 4.走马灯
 import Carousel from '../../components/carousel';
 // 5.产品区
-import ProductCollection from '../../components/product';
+// import ProductCollection from '../../components/product/product';
 // 6.合作企业
 import BussinessPartner from '../../components/bussinessPartner'
 // 栅格布局
-import { Row, Col, Typography } from 'antd';
-
-import { productList1, productList2, productList3 } from '../mockups';
-import sideImage from '../../assets/images/sider_2019_12-09.png';
-import sideImage2 from '../../assets/images/sider_2019_02-04.png';
-import sideImage3 from '../../assets/images/sider_2019_02-04-2.png'
+import { Row, Col, Typography, Spin } from 'antd';
+import { JsxElement } from 'typescript';
+import { RouteComponentProps } from 'react-router-dom';
+import axios from 'axios';
 
 interface IHomeProps {
+    children: any
 }
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
+    // const [productList, setProductList] = React.useState([]);
+    // const [loading, setLoading] = React.useState(true);
+    // const [error, setError] = React.useState(null)
+    // React.useEffect(() => {
+    //     renderHome()
+    // }, [])
+    // const renderHome = async () => {
+    //     try {
+    //         let { data } = await axios.get("http://123.56.149.216:8080/api/productCollections", {
+    //             headers: {
+    //                 "x-icode": "FB80558A73FA658E",
+    //             }
+    //         });
+    //         setProductList(data);
+    //         setLoading(false);
+    //         setError(null)
+    //     } catch (error: any) {
+    //         setError(error.message);
+    //         setLoading(false);
+
+    //     }
+    // };
+    // //列表为空,数据当期，数据加载loading
+    // if (loading) {
+    //     return <Spin
+    //         size='large'
+    //         style={{
+    //             display: 'block',
+    //             margin: '0 auto',
+    //             marginTop: '200',
+    //             width: '100%'
+    //         }}
+    //     />
+    // }
+    // 请求错误的情况下
+    // if (error) {
+    //     return <Typography.Title type='danger' level={3}>网站出错:{error}</Typography.Title>
+    // }
+
+
     return (
         <div className='App'>
             {/* 1.头部Header */}
@@ -44,22 +83,9 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
                         </div>
                     </Col>
                 </Row>
-                {/*2.2 产品区 */}
-                <ProductCollection
-                    title={<Typography.Title level={3} type="success">爆款推荐</Typography.Title>}
-                    sideImage={sideImage}
-                    products={productList1}
-                />
-                <ProductCollection
-                    title={<Typography.Title level={3} type="danger">新品上市</Typography.Title>}
-                    sideImage={sideImage2}
-                    products={productList2}
-                />
-                <ProductCollection
-                    title={<Typography.Title level={3} type="secondary">国内游推荐</Typography.Title>}
-                    sideImage={sideImage3}
-                    products={productList3}
-                />
+
+                {props.children}
+
                 {/* 3.合作企业 */}
                 <BussinessPartner />
             </div>
