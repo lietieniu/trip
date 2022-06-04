@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './index.css'
+// import './index.css'
 // 1.头部部分
 import Header from '../../components/header/Header';
 // 2.底部
@@ -17,6 +17,8 @@ import { Row, Col, Typography, Spin } from 'antd';
 import { JsxElement } from 'typescript';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
+
+import MainLayout from '../../layouts/mainLayout'
 
 interface IHomeProps {
     children: any
@@ -64,14 +66,9 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
 
 
     return (
-        <div className='App'>
-            {/* 1.头部Header */}
-            <Header />
-
-            {/* 2.content */}
-            <div className='page-content'>
-                {/* 2.1侧边导航 */}
-                <Row style={{ marginTop: 15 }}>
+        <MainLayout>
+             {/* 2.1侧边导航 */}
+             <Row style={{ marginTop: 15 }}>
                     <Col span={6}>
                         <div>
                             <SideMenu />
@@ -88,11 +85,8 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
 
                 {/* 3.合作企业 */}
                 <BussinessPartner />
-            </div>
-            {/* 3.Footer底部 */}
-            <Footer />
-
-        </div>
+            
+        </MainLayout>
     );
 };
 

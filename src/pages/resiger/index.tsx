@@ -1,13 +1,14 @@
 import * as React from 'react';
-
+import UserLayout from '../../layouts/userLayout';
+import ResigerForm from './resigerForm'
 interface IResigerProps {
 }
 
 const Resiger: React.FunctionComponent<IResigerProps> = (props) => {
     return (
-        <div>
-            <h1>注册界面</h1>
-        </div>
+      <UserLayout>
+           <ResigerForm/>
+      </UserLayout>
     );
 };
 

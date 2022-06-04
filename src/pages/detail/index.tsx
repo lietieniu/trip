@@ -16,6 +16,8 @@ import { commentMockData } from './mockup';
 import { productDetailSlice } from '../../redux/productDetail/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
+//
+import MainLayout from '../../layouts/mainLayout';
 
 // 日期截至框
 const { RangePicker } = DatePicker
@@ -45,7 +47,7 @@ const Detail: React.FunctionComponent<IDetailProps> = (props) => {
     const renderDetailPage = async () => {
         //    Redux-Tookit 写法一
         // dispatch(getProductDetail(orderDetailId))
-        
+
         // 写法二：
         // dispatch(productDetailSlice.actions.fetchStart())
         // try {
@@ -81,79 +83,75 @@ const Detail: React.FunctionComponent<IDetailProps> = (props) => {
     };
 
     return (
-        <>
-            <Header />
-            <div className='page-content'>
-                {/*1.产品简介与日期选择  */}
-                <div className='product-intro-container'>
-                    <Row>
-                        <Col span={13}>
-                            {/* 产品简介 */}
-                            {/* <ProductIntro/> */}
-                        </Col>
-                        <Col span={11} >
-                            <RangePicker
-                                open
-                                style={{ marginTop: '20px' }}
-                                onChange={onChange}
+        <MainLayout>
+            {/*1.产品简介与日期选择  */}
+            <div className='product-intro-container'>
+                <Row>
+                    <Col span={13}>
+                        {/* 产品简介 */}
+                        {/* <ProductIntro/> */}
+                    </Col>
+                    <Col span={11} >
+                        <RangePicker
+                            open
+                            style={{ marginTop: '20px' }}
+                            onChange={onChange}
 
-                                format="YYYY-MM-DD" />
-                        </Col>
-                    </Row>
-                </div>
-                {/* 2.锚点菜单 */}
-                <Anchor className='product-detail-anchor'>
-                    <Menu mode='horizontal'>
-                        <Menu.Item key={0}>
-                            <Link href='#feature' title="产品特色" />
-                        </Menu.Item>
-                        <Menu.Item key={1}>
-                            <Link href='#fees' title="费用" />
-                        </Menu.Item>
-                        <Menu.Item key={2}>
-                            <Link href='#notes' title="预定须知" />
-                        </Menu.Item>
-                        <Menu.Item key={3}>
-                            <Link href='#comments' title="商品评价" />
-                        </Menu.Item>
-                    </Menu>
-                </Anchor>
-                {/* 3.产品特色 */}
-                <div id='feature' className='product-detail-container'>
-                    <Divider orientation='center'>
-                        <Typography.Title level={3} type="secondary">产品特色</Typography.Title>
-                    </Divider>
-                    {/* 将传递过来的html标签页面进行解析 */}
-                    {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
-                </div>
-                {/* 4.费用 */}
-                <div id='fees' className='product-detail-container'>
-                    <Divider orientation='center'>
-                        <Typography.Title level={3} type="danger">费用</Typography.Title>
-                    </Divider>
-                    {/* 将传递过来的html标签页面进行解析 */}
-                    {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
-                </div>
-                {/* 5.预定须知 */}
-                <div id='notes' className='product-detail-container'>
-                    <Divider orientation='center'>
-                        <Typography.Title level={3} type="success">预定须知</Typography.Title>
-                    </Divider>
-                    {/* 将传递过来的html标签页面进行解析 */}
-                    {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
-                </div>
-                {/* 6.商品评价 */}
-                <div id='comments' className='product-detail-container'>
-                    <Divider orientation='center'>
-                        <Typography.Title level={3} type="warning">商品评价</Typography.Title>
-                    </Divider>
-                    <div style={{ margin: 10 }}>
-                        <ProductComment data={commentMockData} />
-                    </div>
+                            format="YYYY-MM-DD" />
+                    </Col>
+                </Row>
+            </div>
+            {/* 2.锚点菜单 */}
+            <Anchor className='product-detail-anchor'>
+                <Menu mode='horizontal'>
+                    <Menu.Item key={0}>
+                        <Link href='#feature' title="产品特色" />
+                    </Menu.Item>
+                    <Menu.Item key={1}>
+                        <Link href='#fees' title="费用" />
+                    </Menu.Item>
+                    <Menu.Item key={2}>
+                        <Link href='#notes' title="预定须知" />
+                    </Menu.Item>
+                    <Menu.Item key={3}>
+                        <Link href='#comments' title="商品评价" />
+                    </Menu.Item>
+                </Menu>
+            </Anchor>
+            {/* 3.产品特色 */}
+            <div id='feature' className='product-detail-container'>
+                <Divider orientation='center'>
+                    <Typography.Title level={3} type="secondary">产品特色</Typography.Title>
+                </Divider>
+                {/* 将传递过来的html标签页面进行解析 */}
+                {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
+            </div>
+            {/* 4.费用 */}
+            <div id='fees' className='product-detail-container'>
+                <Divider orientation='center'>
+                    <Typography.Title level={3} type="danger">费用</Typography.Title>
+                </Divider>
+                {/* 将传递过来的html标签页面进行解析 */}
+                {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
+            </div>
+            {/* 5.预定须知 */}
+            <div id='notes' className='product-detail-container'>
+                <Divider orientation='center'>
+                    <Typography.Title level={3} type="success">预定须知</Typography.Title>
+                </Divider>
+                {/* 将传递过来的html标签页面进行解析 */}
+                {/* <div dangerouslySetInnerHTML={{__html:product.features}}></div> */}
+            </div>
+            {/* 6.商品评价 */}
+            <div id='comments' className='product-detail-container'>
+                <Divider orientation='center'>
+                    <Typography.Title level={3} type="warning">商品评价</Typography.Title>
+                </Divider>
+                <div style={{ margin: 10 }}>
+                    <ProductComment data={commentMockData} />
                 </div>
             </div>
-            <Footer />
-        </>
+        </MainLayout>
     );
 };
 

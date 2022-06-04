@@ -8,6 +8,8 @@ import { Button, Spin, Typography } from 'antd';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 
+import MainLayout from '../../layouts/mainLayout'
+
 // import {FilterArea} from '../../components/filter/index';
 // import {ProductList} from '../../components/productList'
 
@@ -41,17 +43,15 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   // const onChange=(nextPage:any,pageSize:any)=>{
   //   dispatch(searchProduct({nextPage,pageSize,keywords}))
   // }
- 
+
   return (
-    <div>
-      <Header />
-      <div className='page-content'>
-          {/*1.分类过滤器*/}
-        <div className='product-list-container'>
-          {/* <FilterArea/> */}
-        </div>
-        {/* 2.产品列表 */}
-        {/* <div className='product-list-container'>
+    <MainLayout>
+      {/*1.分类过滤器*/}
+      <div className='product-list-container'>
+        {/* <FilterArea/> */}
+      </div>
+      {/* 2.产品列表 */}
+      {/* <div className='product-list-container'>
                   <ProductList 
                    data={productList}
                    paging={pagination}
@@ -59,13 +59,9 @@ const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
 
                   />
                 </div> */}
-        <Typography.Title level={3} type="success">关键词为:{keywords}</Typography.Title>
-        <Button>点击</Button>
-      </div>
-      <Footer
-
-      />
-    </div>
+      <Typography.Title level={3} type="success">关键词为:{keywords}</Typography.Title>
+      <Button>点击</Button>
+    </MainLayout>
   );
 };
 

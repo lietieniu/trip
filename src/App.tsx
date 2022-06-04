@@ -35,7 +35,7 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
         <Route exact path='/resiger' component={Resiger} />
         <Route exact path="/detail/:orderDetailId" component={Detail} />
         {/* path="/search/:keywords?" 问号：代表参数可有可无 */}
-        <Route exact path="/search/:keywords?" component={SearchPage} /> 
+        <Route exact path="/search/:keywords?" component={SearchPage} />
         <Route exact component={NotFind} />
       </Switch>
     </BrowserRouter>

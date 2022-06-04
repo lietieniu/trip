@@ -1,13 +1,15 @@
 import * as React from 'react';
+import UserLayout from '../../layouts/userLayout';
+import SignForm from './signForm'
 
 interface ISignProps {
 }
 
 const Sign: React.FunctionComponent<ISignProps> = (props) => {
     return (
-        <div>
-            <h1>登录页面</h1>
-        </div>
+        <UserLayout>
+            <SignForm/>
+        </UserLayout>
     );
 };
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.css'
 import logo from '../../assets/logo.svg';
 import { Button, Input, Layout, Typography, Dropdown, Menu } from 'antd';
@@ -11,8 +11,18 @@ import { RootState } from '../../redux/store'
 //
 import { useTranslation, withTranslation } from 'react-i18next'
 
-import { connect } from 'react-redux';
-import * as types from '../../redux/language/languageAction'
+import { connect, useDispatch } from 'react-redux';
+import { useSelector } from '../../redux/hooks';
+import * as types from '../../redux/language/languageAction';
+
+//引入jwt解码，jwt的类型
+import jwt_decode, { JwtPayload as DefaultJwtPayload } from 'jwt-decode';
+import { userSlice } from '../../redux/user/slice';
+// 创建jwt接口类型
+interface jwtPayload extends DefaultJwtPayload {
+  username: string
+}
+
 const mapStateToProps = (state: any) => {
   return {
     Language: state.Language
@@ -34,6 +44,25 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
   let languageList = Language.languageList
   // 3.
   const { t } = useTranslation();
+
+  // 解码jwt,显示用户的状态信息/购物车
+  const dispatch = useDispatch();
+  const jwt = useSelector(s => s.user.token); //获得jwt
+  const [username, setUsername] = useState('');
+  // useEffect监控我们这个jwt的变化
+  useEffect(() => {
+    if (jwt!==null) { //jwt存在时,
+      const Token = jwt_decode<jwtPayload>(jwt) //Token是解码后的一个js对象
+      setUsername(Token.username);//获得Token中的用户名
+    }
+  }, [jwt])
+
+  // 用户注销函数(用户注销，就是将reducer函数中的当前的state.jwt设置为null,jwt变化页面重新render,就注销了)
+  // 因为登录页面和header头部页面中的useEffect都根据传递过来的jwt进行监听
+  const loginOut = () => {
+    dispatch(userSlice.actions.loginOut());
+    history.push("/") //注销删除当前的jwt之后,进行重新进入主页,就按照没有jwt的样式进行渲染
+  }
   return (
     <div>
       <div className='app-header'>
@@ -70,10 +99,22 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
             </Dropdown.Button>
 
             {/* 按钮组 */}
-            <Button.Group className='button-group' style={{ marginTop: '4px' }}>
-              <Button onClick={() => { history.push('/sign') }}>{t('header.signin')}</Button>
-              <Button onClick={() => { history.push('/resiger') }}>{t('header.register')}</Button>
-            </Button.Group>
+            {
+              //如果jwt存在，在显示用户的详情内容即ui展示
+              jwt ? <Button.Group className='button-group'>
+                <span>
+                  {t("header.welcome")}
+                  <Typography.Text strong>{username}</Typography.Text>
+                  <Button>{t('header.shoppingCart')}</Button>
+                  <Button onClick={loginOut}>{t('header.signOut')}</Button>
+                </span>
+              </Button.Group> :
+                // jwt不存在是显示这个
+                <Button.Group className='button-group' style={{ marginTop: '4px' }}>
+                  <Button onClick={() => { history.push('/sign') }}>{t('header.signin')}</Button>
+                  <Button onClick={() => { history.push('/resiger') }}>{t('header.register')}</Button>
+                </Button.Group>
+            }
           </div>
         </div>
 
@@ -83,12 +124,12 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
             <img src={logo} alt="" className='app-logo' />
             <Typography.Title level={3} className='app-title'>React 旅游网</Typography.Title>
           </span>
-          <Input.Search 
-          placeholder='请输入旅游的目的地,主题，或关键字' 
-          className='app-search'
-          onSearch={(keywords)=>{history.push('/search/'+keywords)}}
+          <Input.Search
+            placeholder='请输入旅游的目的地,主题，或关键字'
+            className='app-search'
+            onSearch={(keywords) => { history.push('/search/' + keywords) }}
           >
-           </Input.Search>
+          </Input.Search>
         </Layout.Header>
         {/* 3.水平导航菜单 */}
         <Menu mode={'horizontal'} className='menu1'>
