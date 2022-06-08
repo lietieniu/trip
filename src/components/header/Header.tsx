@@ -21,7 +21,7 @@ import { userSlice } from '../../redux/user/slice';
 // 创建jwt接口类型
 interface jwtPayload extends DefaultJwtPayload {
   username: string
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {
@@ -51,7 +51,7 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
   const [username, setUsername] = useState('');
   // useEffect监控我们这个jwt的变化
   useEffect(() => {
-    if (jwt!==null) { //jwt存在时,
+    if (jwt !== null) { //jwt存在时,
       const Token = jwt_decode<jwtPayload>(jwt) //Token是解码后的一个js对象
       setUsername(Token.username);//获得Token中的用户名
     }
@@ -62,7 +62,12 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
   const loginOut = () => {
     dispatch(userSlice.actions.loginOut());
     history.push("/") //注销删除当前的jwt之后,进行重新进入主页,就按照没有jwt的样式进行渲染
-  }
+  };
+
+  // 引入购物车订单信息+状态
+  const shoppingCartItems = useSelector(s => s.shoppingCart.items);
+  const shoppingCartLoading = useSelector(s => s.shoppingCart.loading);
+
   return (
     <div>
       <div className='app-header'>
@@ -105,12 +110,18 @@ const Header: React.FunctionComponent<IAppProps> = (props) => {
                 <span>
                   {t("header.welcome")}
                   <Typography.Text strong>{username}</Typography.Text>
-                  <Button>{t('header.shoppingCart')}</Button>
+
                   <Button onClick={loginOut}>{t('header.signOut')}</Button>
                 </span>
               </Button.Group> :
                 // jwt不存在是显示这个
                 <Button.Group className='button-group' style={{ marginTop: '4px' }}>
+                  <Button
+                    onClick={() => { history.push('/shoppingCart') }}
+                    loading={shoppingCartLoading} //loading状态
+                  >
+                    购物车({<span style={{ color: 'red' }}>{shoppingCartItems.length}</span>})
+                  </Button>
                   <Button onClick={() => { history.push('/sign') }}>{t('header.signin')}</Button>
                   <Button onClick={() => { history.push('/resiger') }}>{t('header.register')}</Button>
                 </Button.Group>

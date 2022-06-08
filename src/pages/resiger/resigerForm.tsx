@@ -20,7 +20,7 @@ const ResigerForm: React.FunctionComponent<IResigerFormProps> = (props) => {
             await axios.post("https://mock.mengxuegu.com/mock/6260234066abf914b1f1c436/dc/set/shouquan", {
                 username: value.username,
                 password: value.password,
-                consfirm: value.confirm
+                confirm: value.confirm
             });
 
             message.success("用户创建成功,请登录一下吧!");

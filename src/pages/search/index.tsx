@@ -22,10 +22,11 @@ interface matchParams {
 
 const SearchPage: React.FunctionComponent<ISearchPageProps> = (props) => {
   // 获得参数方法一: 
-  let params = useParams()
-  let keywords = props.match.params.keywords;
+  // let params = useParams()
+  // let keywords = props.match.params.keywords;
   // 方法二:
-  // let { keywords } = useParams<matchParams>();
+  let { keywords } = useParams<matchParams>();
+
   let Location = useLocation()
   let dispatch = useDispatch()
 

@@ -27,14 +27,15 @@ export const searchProduct = createAsyncThunk(
         if (paramaters.keywords) {
             url += `&keywords=${paramaters.keywords}`
         }
-     let res = await axios.get(url, {
+        let res = await axios.get(url, 
+        {
             headers: {
                 "x-icode": "FB80558A73FA658E"
             }
         });
         return {
-            data:res.data,
-            pagination:JSON.parse(res.headers["x-pagination"])
+            data: res.data,
+            pagination: JSON.parse(res.headers["x-pagination"])
         }
     }
 )

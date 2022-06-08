@@ -17,11 +17,13 @@ const initialState: ProductDetailState = {
 export const getProductDetail = createAsyncThunk(
     "productDetail/getProductDetail",
     async (orderDetailId: string, thunkAPI) => {
-        const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${orderDetailId}`, {
+        const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${orderDetailId}`,
+         {
             headers: {
                 "x-icode": "FB80558A73FA658E"
             }
-        });
+        }
+        );
         return data;
     }
 )

@@ -2,7 +2,8 @@ import * as React from 'react';
 import './index.css';
 
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
-import { Typography, Spin, Row, Col, DatePicker, Divider, Menu, Anchor } from 'antd';
+import { Typography, Spin, Row, Col, DatePicker, Divider, Menu, Anchor, Button } from 'antd';
+
 import axios from 'axios';
 // 引入头部和底部组件复用代码
 import Header from '../../components/header/Header';
@@ -16,8 +17,11 @@ import { commentMockData } from './mockup';
 import { productDetailSlice } from '../../redux/productDetail/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
-//
+//嵌套布局
 import MainLayout from '../../layouts/mainLayout';
+
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import { addShoppingCart } from '../../redux/shoppingCart/slice';
 
 // 日期截至框
 const { RangePicker } = DatePicker
@@ -38,12 +42,16 @@ const Detail: React.FunctionComponent<IDetailProps> = (props) => {
     const error = useSelector(state => state.productDetail.error)
     const dispatch = useDispatch();
 
+    // 添加购物车信息
+    const jwt = useSelector(s => s.user.token) as string;
+    const shoppingCartLoading = useSelector(s => s.shoppingCart.loading);
+
     // 2.产品对应的Id值
     let { orderDetailId } = props.match.params
     // 页面初始化渲染
     React.useEffect(() => {
         renderDetailPage()
-    }, []);
+    }, [orderDetailId]);
     const renderDetailPage = async () => {
         //    Redux-Tookit 写法一
         // dispatch(getProductDetail(orderDetailId))
@@ -92,6 +100,19 @@ const Detail: React.FunctionComponent<IDetailProps> = (props) => {
                         {/* <ProductIntro/> */}
                     </Col>
                     <Col span={11} >
+                        <Button
+                            style={{ marginTop: 50, marginBottom: 30, display: 'block' }}
+                            type="primary"
+                            danger
+                            loading={shoppingCartLoading}
+                            onClick={() => {
+                                // 发送添加购物车功能
+                                // dispatch(addShoppingCart({jwt,touristRouteId:data.id}))
+                            }}
+                        >
+                            <ShoppingCartOutlined />
+                            添加购物车
+                        </Button>
                         <RangePicker
                             open
                             style={{ marginTop: '20px' }}
